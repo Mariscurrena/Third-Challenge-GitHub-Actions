@@ -1,3 +1,26 @@
 name: CI/CD Pipeline
 
 on: [push]
+
+jobs:
+    test: ##job defined to made the testing phase
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checking out the repo
+              uses: actions/checkout@v2
+
+            - name: Testing/running the code
+              run: |
+                python3 "hello_world.py"
+    
+    build:
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+            - name: Checking out the repo
+              uses: actions/checkout@v2
+            - name: Creating an artifact
+              uses: actions/upload-artifact@v2
+              with:
+                name: build artifact
+                path: .
